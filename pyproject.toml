@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "chat-app"
+version = "0.1.0"
+description = ""
+authors = ["ilyaplc <ilya.pileckiy@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.104.0"
+uvicorn = "^0.23.2"
+motor = "^3.3.1"
+pymongo = "^4.5.0"
+pydantic = "^2.4.2"
+websockets = "^11.0.3"
+asyncpg = "^0.28.0"
+pydantic-settings = "^2.0.3"
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
