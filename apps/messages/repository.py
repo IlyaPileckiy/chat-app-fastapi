@@ -1,5 +1,5 @@
 from apps.chats.repository import ChatRepository
-from apps.messages.models import HistoryMessages, Message
+from apps.messages.models import Message, MessagesHistory
 from core.models import PydanticObjectId
 from core.mongo_client import database
 
@@ -16,7 +16,7 @@ class MessageRepository:
         return Message.parse_obj(await collection.find_one({"_id": created.inserted_id}))
 
     @staticmethod
-    async def get_chat_history(chat_id: PydanticObjectId, offset=0, limit=20) -> HistoryMessages:
+    async def get_chat_history(chat_id: PydanticObjectId, offset=0, limit=20) -> MessagesHistory:
         filter = {"chat_id": chat_id}
         sort = list({"created_at": -1}.items())
         total = await collection.count_documents(filter)
@@ -24,4 +24,4 @@ class MessageRepository:
         messages = [Message.parse_obj(message) for message in await query]
         messages.reverse()
 
-        return HistoryMessages(total=total, messages=messages)
+        return MessagesHistory(total=total, messages=messages)

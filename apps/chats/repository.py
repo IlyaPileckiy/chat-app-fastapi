@@ -3,7 +3,7 @@ from typing import List, Optional
 
 from bson.objectid import ObjectId
 
-from apps.chats.models import Chat, HistoryChats
+from apps.chats.models import Chat, ChatsHistory
 from apps.users.repository import UsersRepository
 from core.mongo_client import database as mongo_database
 
@@ -34,7 +34,7 @@ class ChatRepository:
         return chat
 
     @classmethod
-    async def get_users_chats(cls, db, user_id, offset=0, limit=10) -> HistoryChats:
+    async def get_users_chats(cls, db, user_id, offset=0, limit=10) -> ChatsHistory:
         filter = {"members": {"$in": [user_id]}}
         sort = list({"last_message": -1}.items())
         total = await collection.count_documents(filter)
@@ -43,7 +43,7 @@ class ChatRepository:
         chats.reverse()
         await cls.add_info_for_chats(db, chats, user_id)
 
-        return HistoryChats(total=total, chats=chats)
+        return ChatsHistory(total=total, chats=chats)
 
     @staticmethod
     def get_receiver_id(sender_id: int, members: List[int]) -> Optional[int]:

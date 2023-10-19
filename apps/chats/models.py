@@ -23,7 +23,7 @@ class Chat(BaseModel):
         json_encoders = {ObjectId: str}
 
 
-class HistoryChats(BaseModel):
+class ChatsHistory(BaseModel):
     total: int
     chats: List[Chat]
 

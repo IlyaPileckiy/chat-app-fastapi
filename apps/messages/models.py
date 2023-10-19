@@ -25,9 +25,9 @@ class Message(BaseModel):
         json_encoders = {PydanticObjectId: str, ObjectId: str}
 
 
-class HistoryMessages(BaseModel):
+class MessagesHistory(BaseModel):
     total: int
-    messeges: List[Message]
+    messages: List[Message]
 
     class Config:
         orm_mode = True

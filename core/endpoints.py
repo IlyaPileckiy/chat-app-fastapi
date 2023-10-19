@@ -11,9 +11,9 @@ from fastapi import (
     Header
 )
 
-from apps.chats.models import Chat, ChatRequest, HistoryChats
+from apps.chats.models import Chat, ChatRequest, ChatsHistory
 from apps.chats.repository import ChatRepository
-from apps.messages.models import HistoryMessages
+from apps.messages.models import MessagesHistory
 from apps.messages.repository import MessageRepository
 from apps.messages.services import process_new_message
 from core.connections_manager import ConnectionManager
@@ -31,11 +31,10 @@ wb_logger = logging.getLogger("uvicorn")
 @router.get("/chat/history/{chat_id}/")
 async def history(
     request: Request, chat_id: PydanticObjectId, offset: int, limit: int
-) -> HistoryMessages:
+) -> MessagesHistory:
     history = await MessageRepository.get_chat_history(
         chat_id=chat_id, offset=offset, limit=limit
     )
-    MessageRepository.update_is_read(chat_id, int(request.state.user_id))
     return history
 
 
@@ -53,7 +52,7 @@ async def create_chat(
 @router.get("/chat/list/")
 async def users_chats(
     request: Request, offset: int, limit: int, db: Database = Depends(get_db)
-) -> HistoryChats:
+) -> ChatsHistory:
     return await ChatRepository.get_users_chats(
         db, int(request.state.user_id), offset=offset, limit=limit
     )
