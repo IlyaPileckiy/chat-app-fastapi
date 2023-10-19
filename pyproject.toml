@@ -12,7 +12,6 @@ uvicorn = "^0.23.2"
 motor = "^3.3.1"
 pymongo = "^4.5.0"
 pydantic = "^2.4.2"
-websockets = "^11.0.3"
 asyncpg = "^0.28.0"
 pydantic-settings = "^2.0.3"
 
